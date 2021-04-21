@@ -13,7 +13,7 @@ function Blog(props) {
         setToken(tempToken);    
 
         
-        fetch('http://localhost:6969/blog', {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog', {
             method: 'GET'
         })
         .then(res => res.json())

@@ -18,13 +18,13 @@ function BlogPost(props) {
             setToken(tempToken);
         }
 
-        fetch('http://localhost:6969/blog/'+id, {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'GET'
         })
         .then(res => res.json())
         .then(res => {setPost(res)});
 
-        fetch('http://localhost:6969/blog/'+id+'/comments', {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+'/comments', {
             method: 'GET'
         })
         .then(res => res.json())
@@ -37,7 +37,7 @@ function BlogPost(props) {
     function submitForm(e) {
         e.preventDefault();
         console.log(message);
-        fetch('http://localhost:6969/blog/'+id, {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'POST',
             body: JSON.stringify({comment: message}),
             headers: { 'Content-Type': 'application/json' },
@@ -53,7 +53,7 @@ function BlogPost(props) {
     const deletePost = (e) => {
         e.preventDefault();
         console.log(message);
-        fetch('http://localhost:6969/blog/'+id, {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'DELETE',
             headers: { 'Authorization' : 'Bearer ' + token },
             mode: 'cors'
@@ -73,7 +73,7 @@ function BlogPost(props) {
 
     const deleteComment = (comment_id) => {
         console.log(message);
-        fetch('http://localhost:6969/blog/'+id+"/comment/"+comment_id, {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+"/comment/"+comment_id, {
             method: 'DELETE',
             headers: { 'Authorization' : 'Bearer ' + token },
             mode: 'cors'

@@ -16,7 +16,7 @@ function BlogForm(props) {
 
     useEffect(()=> {
         if(id) {
-            fetch('http://localhost:6969/blog/' + id, {
+            fetch('https://quiet-retreat-88465.herokuapp.com/blog/' + id, {
                 method: 'GET',
                 mode: 'cors'
             })
@@ -50,7 +50,7 @@ function BlogForm(props) {
 
     function postBlogPost(e) {
         e.preventDefault();
-        fetch('http://localhost:6969/blog', {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog', {
             method: 'POST',
             body: JSON.stringify({post:post, title:title}),
             headers: { 'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ function BlogForm(props) {
 
     const updateBlogPost = (e) => {
         e.preventDefault();
-        fetch('http://localhost:6969/blog/'+id, {
+        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'PUT',
             body: JSON.stringify({post:post, title:title}),
             headers: { 'Content-Type': 'application/json',

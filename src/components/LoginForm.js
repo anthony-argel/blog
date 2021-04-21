@@ -10,7 +10,7 @@ function LoginForm(props) {
 
     function login(e){
         e.preventDefault();
-        fetch('http://localhost:6969/login', {
+        fetch('https://quiet-retreat-88465.herokuapp.com/login', {
             method: 'POST',
             body: JSON.stringify({username: user, password: password}),
             headers: { 'Content-Type': 'application/json' },
