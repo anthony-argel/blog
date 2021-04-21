@@ -1,2 +1,2 @@
-# blog
-An exercise for The Odin Project. The frontend of a blog project.
+# Blog Frontend
+An exercise for The Odin Project. 
