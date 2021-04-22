@@ -15,6 +15,9 @@ import {
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
+    if(localStorage.getItem('token') !== null) {
+      setLoggedIn(true);
+    }
   }, []);
   
   function setLogin(status) {
@@ -23,7 +26,6 @@ function App() {
 
 
   useEffect(() => {
-    console.log('changed to ' + loggedIn);
   }, [loggedIn])
 
   return (
