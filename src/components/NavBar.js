@@ -1,18 +1,15 @@
-import {NavLink} from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import {NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
 import '../styles/index.css';
 
 const NavBar = (props) => {
-    const [token, setToken] = useState();
-
     useEffect(() => {
-        setToken(localStorage.getItem('token'));
-        
+        console.log(props.loggedIn)
     }, [])
 
-    const logOut =() => {
+    function logOut() {
         localStorage.removeItem('token');
-        window.location.reload();
+        props.setLogin(false);
     }
 
     return (
@@ -24,8 +21,8 @@ const NavBar = (props) => {
             </div>
             <div className='nav-right'>
                 <ul className='flex-row'>
-                    {token === null ? <li><NavLink to='/login'>Login</NavLink></li> : <li onClick={logOut} style={{cursor:'pointer'}}>Log Out</li>}
-                    {token !== null ? <li><NavLink to='/blog/create'>Create</NavLink></li> : null}
+                    {!props.loggedIn ? <li><NavLink to='/login'>Login</NavLink></li> : <li onClick={logOut} style={{cursor:'pointer'}}>Log Out</li>}
+                    {props.loggedIn ? <li><NavLink to='/blog/create'>Create</NavLink></li> : null}
                 </ul>
             </div>
         </nav>

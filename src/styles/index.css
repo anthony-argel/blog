@@ -95,3 +95,6 @@ nav a{
   display: flex;
 }
 
+img {
+  max-width: 100%;
+}

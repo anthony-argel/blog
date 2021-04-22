@@ -11,6 +11,7 @@ function BlogForm(props) {
     const [loggedIn, setLoggedIn] = useState(true);
     const [posted, setPosted] = useState(false);
     const {id} = useParams();
+    const [refresh, setRefresh] = useState(false);
 
     const [blogData, setBlogData] = useState();
 
@@ -78,6 +79,12 @@ function BlogForm(props) {
         }
     }
 
+    const refreshCheck = () => {
+        if(refresh) {
+            return <Redirect push to={`/blog/${id}`}/>;
+        }
+    }
+
     const updateBlogPost = (e) => {
         e.preventDefault();
         fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
@@ -93,7 +100,7 @@ function BlogForm(props) {
             }
             if(res.status === 200) {
                 if(blogData) {
-                    window.location.reload();
+                    setRefresh(true);
                 } else {
                     setPosted(true);
                 }
@@ -105,6 +112,7 @@ function BlogForm(props) {
         <div className="content">
             {loginCheck()}
             {postCheck()}
+            {refreshCheck()}
             <h1>Create A Post</h1>
             <form className="flex-column" onSubmit={blogData ? updateBlogPost : postBlogPost}>
                 {blogData ? 

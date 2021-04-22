@@ -24,12 +24,16 @@ function BlogPost(props) {
         .then(res => res.json())
         .then(res => {setPost(res)});
 
+        loadComments();
+    }, []);
+
+    const loadComments = () => {
         fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+'/comments', {
             method: 'GET'
         })
         .then(res => res.json())
         .then(res => {setCommentsList(res)});
-    }, []);
+    }
 
     useEffect(()=> {
     }, [post]);
@@ -45,7 +49,7 @@ function BlogPost(props) {
         })
         .then(res=> {
             if(res.status === 200) {
-                window.location.reload();
+                loadComments();
             }
         })
     }
@@ -80,7 +84,7 @@ function BlogPost(props) {
         })
         .then(res=> {
             if(res.status === 200) {
-                window.location.reload();
+                loadComments();
             }
         })
     }

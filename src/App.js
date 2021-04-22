@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Home from './components/Home';
 import Blog from './components/Blog';
 import BlogPost from './components/BlogPost';
@@ -13,18 +13,30 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+  }, []);
+  
+  function setLogin(status) {
+    setLoggedIn(status);
+  }
+
+
+  useEffect(() => {
+    console.log('changed to ' + loggedIn);
+  }, [loggedIn])
 
   return (
     <div className="App">
       <BrowserRouter>
-      <NavBar/>
+      <NavBar setLogin={setLogin} loggedIn={loggedIn}/>
         <Switch>
           <Route path='/' exact ><Redirect to='/blog'/></Route>
           <Route path='/blog' exact><Blog /></Route>
           <Route path='/blog/create' exact><BlogForm /></Route>
           <Route path='/blog/:id/edit' exact><BlogForm /></Route>
           <Route path='/blog/:id' exact><BlogPost /></Route>
-          <Route path='/login' exact ><LoginForm /></Route>
+          <Route path='/login' exact><LoginForm setLogin={setLogin}/></Route>
         </Switch>
       </BrowserRouter>
     </div>
