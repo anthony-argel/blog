@@ -28,7 +28,7 @@ function Blog(props) {
 
     return (
         <div className="content">
-            {posts.map((value, index) => {
+            {posts.lengths === 0 ? <div>Loading posts</div> : posts.map((value, index) => {
                 
                 return <Link to={'/blog/'+value._id} key={value._id}><div className="post">
                     <p className='title'>{value.title}</p>

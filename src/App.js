@@ -33,7 +33,8 @@ function App() {
       <BrowserRouter>
       <NavBar setLogin={setLogin} loggedIn={loggedIn}/>
         <Switch>
-          <Route path='/' exact ><Redirect to='/blog'/></Route>
+          <Route path='/' exact ><Redirect to='/home'/></Route>
+          <Route path='/home' exact><Home/></Route>
           <Route path='/blog' exact><Blog /></Route>
           <Route path='/blog/create' exact><BlogForm /></Route>
           <Route path='/blog/:id/edit' exact><BlogForm /></Route>

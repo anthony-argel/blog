@@ -98,3 +98,16 @@ nav a{
 img {
   max-width: 100%;
 }
+
+.recent-posts {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-posts li {
+  font-size: 1.3vw;
+}
+
+.recent-posts li a:hover {
+  color: darkgreen;
+}

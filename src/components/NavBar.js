@@ -4,7 +4,6 @@ import '../styles/index.css';
 
 const NavBar = (props) => {
     useEffect(() => {
-        console.log(props.loggedIn)
     }, [])
 
     function logOut() {
@@ -15,7 +14,8 @@ const NavBar = (props) => {
     return (
         <nav>
             <div className='nav-left'>
-                <ul>
+                <ul className='flex-row'>
+                    <li><NavLink to='/home'>Home</NavLink></li>
                     <li><NavLink to='/blog'>Blog</NavLink></li>
                 </ul>
             </div>
