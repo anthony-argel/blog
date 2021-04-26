@@ -40,7 +40,6 @@ function BlogForm(props) {
 
     useEffect(() => {
         if(blogData) {
-            console.log(blogData)
         }
     }, [blogData])
 

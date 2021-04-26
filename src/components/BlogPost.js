@@ -40,7 +40,6 @@ function BlogPost(props) {
 
     function submitForm(e) {
         e.preventDefault();
-        console.log(message);
         fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'POST',
             body: JSON.stringify({comment: message}),
@@ -56,7 +55,6 @@ function BlogPost(props) {
 
     const deletePost = (e) => {
         e.preventDefault();
-        console.log(message);
         fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
             method: 'DELETE',
             headers: { 'Authorization' : 'Bearer ' + token },
@@ -76,7 +74,6 @@ function BlogPost(props) {
     }
 
     const deleteComment = (comment_id) => {
-        console.log(message);
         fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+"/comment/"+comment_id, {
             method: 'DELETE',
             headers: { 'Authorization' : 'Bearer ' + token },
@@ -104,9 +101,9 @@ function BlogPost(props) {
                     {token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', color:'black'}}>Edit Post</Link>}</div></div>
                 })}
                 <form onSubmit={submitForm}>
-                    <div class="mb-3">
-                        <label for="comment-box" class="form-label"></label>
-                        <textarea class="form-control" name='comment' required onChange={e => setMessage(e.target.value)} id="comment-box" rows="3"></textarea>
+                    <div className="mb-3">
+                        <label htmlFor="comment-box" className="form-label"></label>
+                        <textarea className="form-control" name='comment' required onChange={e => setMessage(e.target.value)} id="comment-box" rows="3"></textarea>
                     </div>
                     <input type='submit' value='Post Comment'></input>
                 </form>

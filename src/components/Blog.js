@@ -32,7 +32,7 @@ function Blog(props) {
                 <div className='col-12 col-md-8'>
                 {posts.lengths === 0 ? <div>Loading posts</div> : posts.map((value, index) => {
                 
-                return <div className="card my-3 p-3 shadow-lg">
+                return <div key={value._id} className="card my-3 p-3 shadow-lg">
                         <div className='card-body'>
                             <h5 className='card-title fs-1'>{value.title}</h5>
                              <p>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</p>

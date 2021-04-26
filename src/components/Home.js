@@ -28,11 +28,11 @@ function Home(props) {
                     <h2 className='h2 text-center'>Random Post</h2>
 
                 <div >{selectedPost !== -1 ?
-                <div class="card"> 
-                    <div class="card-body">
-                        <h5 class="card-title fs-2">{posts[selectedPost].title}</h5>
-                        <p class="card-text fs-5 lh-base" dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p>
-                        <Link to={'/blog/' + posts[selectedPost]._id} class='stretched-link'></Link>
+                <div className="card"> 
+                    <div className="card-body">
+                        <h5 className="card-title fs-2">{posts[selectedPost].title}</h5>
+                        <p className="card-text fs-5 lh-base" dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p>
+                        <Link to={'/blog/' + posts[selectedPost]._id} className='stretched-link'></Link>
                     </div>
                     </div> : 
                         <p>"Loading"</p>}

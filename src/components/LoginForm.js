@@ -56,13 +56,13 @@ function LoginForm(props) {
             <form onSubmit={login} className='login-form text-center' style={{outline: "3px solid black", padding:"2vw"}}>
                 <h1 className=' h1 mb-3 text-center'>Login Form</h1>
                 <input type="text" 
-                class='form-control  mb-3'
+                className='form-control  mb-3'
                 name="username" 
                 required
                 placeholder='username'
                 onChange={e => setUser(e.target.value)}></input>
                 <input type="password"
-                class='form-control mb-3' 
+                className='form-control mb-3' 
                 name="password"
                 placeholder='password'
                 required
