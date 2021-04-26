@@ -49,16 +49,20 @@ function LoginForm(props) {
     }
 
     return (
-        <div className="content">
-            {loginCheck()}
-            <h1>Login Form</h1>
-            <form onSubmit={login} className='login-form'>
+        <div className="container">
+            <div className='row d-flex justify-content-center'>
+                <div className='col-6'>
+                {loginCheck()}
+            <form onSubmit={login} className='login-form text-center' style={{outline: "3px solid black", padding:"2vw"}}>
+                <h1 className=' h1 mb-3 text-center'>Login Form</h1>
                 <input type="text" 
+                class='form-control  mb-3'
                 name="username" 
                 required
                 placeholder='username'
                 onChange={e => setUser(e.target.value)}></input>
-                <input type="password" 
+                <input type="password"
+                class='form-control mb-3' 
                 name="password"
                 placeholder='password'
                 required
@@ -66,6 +70,10 @@ function LoginForm(props) {
                 <input type="submit" value='login'></input>
             </form>
             {error ? <p>Failed to log in. Please try again.</p> : null}
+                </div>
+
+            </div>
+            
         </div>
     )
 }

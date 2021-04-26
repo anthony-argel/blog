@@ -109,12 +109,14 @@ function BlogForm(props) {
     }
 
     return (
-        <div className="content">
+        <div className="container">
+            <div className='row'>
+                <div className='col'>
             {loginCheck()}
             {postCheck()}
             {refreshCheck()}
-            <h1>Create A Post</h1>
-            <form className="flex-column" onSubmit={blogData ? updateBlogPost : postBlogPost}>
+            <h1 className='text-center h1'>Create A Post</h1>
+            <form  onSubmit={blogData ? updateBlogPost : postBlogPost}>
                 {blogData ? 
                     <div>
                         <label htmlFor='prev-title'>Previous Title:</label><br/>
@@ -127,7 +129,7 @@ function BlogForm(props) {
                     </div>
                 <Editor apiKey={process.env.TINY_KEY}
                     onEditorChange={(content, editor) => setPost(content)}
-                    initialValue={blogData ? blogData[0].post : "loading"}
+                    initialValue={blogData ? blogData[0].post : ""}
                     init={{
                     height: 500,
                     menubar: false,
@@ -144,6 +146,8 @@ function BlogForm(props) {
                 />
                 <input type='submit' value='submit'></input>
             </form>
+                </div>
+            </div>
         </div>
     )
 }

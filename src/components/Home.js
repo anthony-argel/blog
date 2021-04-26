@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import '../styles/reset.css'
-import '../styles/index.css';
 
 function Home(props) {
     const [posts, setPosts] = useState([]);
@@ -12,7 +10,7 @@ function Home(props) {
             method: 'GET'
         })
         .then(res => res.json())
-        .then(res => {setPosts(res)});
+        .then(res => {setPosts(res.reverse())});
     }, []);
 
     useEffect(() => {
@@ -23,27 +21,56 @@ function Home(props) {
     }, [posts])
 
     return (
-        <div className="content flex-row">
-         
-         <div ><p style={{textAlign:'center',fontSize:"3vw", margin:"2vh 0"}}>Recent Posts</p>
-            {selectedPost !== -1 ? 
+            <div className='container'>
+                <div className='row d-flex justify-content-evenly'>
+                    <div className='col-12 col-md-6'>
+
+                    <h2 className='h2 text-center'>Random Post</h2>
+
+                <div >{selectedPost !== -1 ?
+                <div class="card"> 
+                    <div class="card-body">
+                        <h5 class="card-title fs-2">{posts[selectedPost].title}</h5>
+                        <p class="card-text fs-5 lh-base" dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p>
+                        <Link to={'/blog/' + posts[selectedPost]._id} class='stretched-link'></Link>
+                    </div>
+                    </div> : 
+                        <p>"Loading"</p>}
+                    </div>
+                    </div>
+
+
+
+
+                    <div className='col-12 col-md-3'>
+                    <div ><p className='fs-2'>Recent Posts</p>
+                            <hr/>
+                        {selectedPost !== -1 ? 
+                        
+                        <ul className='recent-posts lh-lg'>
+                            <li><Link to={'/blog/'+posts[0]._id}>{posts[0].title}</Link></li>
+                            <hr/>
+                            <li><Link to={'/blog/'+posts[1]._id}>{posts[1].title}</Link></li>
+                            <hr/>
+                            <li><Link to={'/blog/'+posts[2]._id}>{posts[2].title}</Link></li></ul>
+                        :
+                                "loading..."
+                        }</div>
+                    </div>
+                </div>
             
-            <ul className='recent-posts'>
-                <li><Link to={'/blog/'+posts[0]._id}>{posts[0].title}</Link></li>
-                <li><Link to={'/blog/'+posts[1]._id}>{posts[1].title}</Link></li>
-                <li><Link to={'/blog/'+posts[2]._id}>{posts[2].title}</Link></li></ul>
-            :
-                    "loading..."
-            }</div>
-         
-         
-            <div>
-            <p style={{textAlign:'center',fontSize:"3vw", margin:"2vh 0"}}>Random Post</p>
-            <div className='post' style={{textAlign:'flexStart'}}>{selectedPost !== -1 ? <Link to={'/blog/' + posts[selectedPost]._id}><div><p>{posts[selectedPost].title}</p><p dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p></div></Link> : <p>"Loading"</p>}</div>
+            
+            
+            
+            
+            
+            
+            
             
             </div>
+
+
             
-        </div>
     )
 }
 

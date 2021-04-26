@@ -32,7 +32,7 @@ function BlogPost(props) {
             method: 'GET'
         })
         .then(res => res.json())
-        .then(res => {setCommentsList(res)});
+        .then(res => {setCommentsList(res.reverse())});
     }
 
     useEffect(()=> {
@@ -90,32 +90,38 @@ function BlogPost(props) {
     }
 
     return (
-        <div className="content">
+        <div className="container">
             {checkDeleted()}
-           {typeof post === 'undefined' ? "Loading" : post.map((value) => {
-               return <div key={id} className='post'>
-                   <h1 style={{marginBottom: "2vh"}}>{value.title}</h1>
-                   <h2>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h2>
-               <hr/><p className='message' dangerouslySetInnerHTML={{__html: value.post}}></p>
-               <div className='flex-row' style={{marginTop: "4vh"}}>
-                   {token === '' ? null : <p onClick={deletePost} style={{cursor:"pointer", marginRight:"2vw"}}>Delete Post</p>}
-               {token === '' ? null : <Link to={`/blog/${id}/edit`}>Edit Post</Link>}</div></div>
-           })}
-           <form onSubmit={submitForm}>
-               <textarea name='comment' id="comment-box" required onChange={e => setMessage(e.target.value)}></textarea><br/>
-               <input type='submit' value='Post Comment'></input>
-           </form>
-           <div className='commentArea'>
-            <p style={{textAlign:"center", marginTop:"3vh"}}>Comments</p>
-            <hr></hr>
-            {typeof commentsList === 'undefined' ? "Loading" : commentsList.map((value) => {
-                return <div className="comment" key={value._id}>
-                    <p>{value.message}</p>
-                    {token === '' ? null : <button style={{cursor:"pointer"}} value={value._id} onClick={() => {deleteComment(value._id)}}>Delete</button>}         
+            <div className='row d-flex justify-content-center '>
+                <div className='col-8'>
+                        {typeof post === 'undefined' ? "Loading" : post.map((value) => {
+                    return <div key={id} className='post'>
+                        <h1 className='h1' style={{marginBottom: "2vh"}}>{value.title}</h1>
+                        <h2>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h2>
+                    <hr/><p className='message fs-4 lh-base' dangerouslySetInnerHTML={{__html: value.post}}></p>
+                    <div style={{marginTop: "4vh", display:'flex'}}>
+                        {token === '' ? null : <p onClick={deletePost} style={{cursor:"pointer", marginRight:"2vw"}}>Delete Post</p>}
+                    {token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', color:'black'}}>Edit Post</Link>}</div></div>
+                })}
+                <form onSubmit={submitForm}>
+                    <div class="mb-3">
+                        <label for="comment-box" class="form-label"></label>
+                        <textarea class="form-control" name='comment' required onChange={e => setMessage(e.target.value)} id="comment-box" rows="3"></textarea>
+                    </div>
+                    <input type='submit' value='Post Comment'></input>
+                </form>
+                <div className='commentArea'> 
+                    <p style={{textAlign:"center", marginTop:"3vh"}}>Comments</p>
+                    <hr></hr>
+                    {typeof commentsList === 'undefined' ? "Loading" : commentsList.map((value) => {
+                        return <div className="mb-4" key={value._id}>
+                            <p className='fs-5'>{value.message}</p>
+                            {token === '' ? null : <button style={{cursor:"pointer"}} value={value._id} onClick={() => {deleteComment(value._id)}}>Delete</button>}         
+                        </div>
+                    })}
+                    </div>
                 </div>
-            })}
-           </div>
-           
+            </div>
         </div>
     )
 }

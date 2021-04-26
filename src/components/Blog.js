@@ -27,18 +27,25 @@ function Blog(props) {
 
 
     return (
-        <div className="content">
-            {posts.lengths === 0 ? <div>Loading posts</div> : posts.map((value, index) => {
+        <div className="container">
+            <div className='row d-flex justify-content-center '>
+                <div className='col-12 col-md-8'>
+                {posts.lengths === 0 ? <div>Loading posts</div> : posts.map((value, index) => {
                 
-                return <Link to={'/blog/'+value._id} key={value._id}><div className="post">
-                    <p className='title'>{value.title}</p>
-                    <p>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</p>
-                    <hr/>
-                    <div className="message" dangerouslySetInnerHTML={{__html: value.post}}/>
+                return <div className="card my-3 p-3 shadow-lg">
+                        <div className='card-body'>
+                            <h5 className='card-title fs-1'>{value.title}</h5>
+                             <p>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</p>
+                             <hr/>
+                            <p className='card-text lh-base fs-5' dangerouslySetInnerHTML={{__html: value.post}}></p>
+                            <Link to={'/blog/'+value._id} key={value._id} className='stretched-link'></Link> 
+                        </div>
                     </div>
-                </Link>
                 
             })}
+                </div>
+            </div>
+            
         </div>
     )
 }
