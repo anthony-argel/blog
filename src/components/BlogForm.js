@@ -40,6 +40,7 @@ function BlogForm(props) {
 
     useEffect(() => {
         if(blogData) {
+            setPost(blogData[0].post);
         }
     }, [blogData])
 
@@ -114,7 +115,8 @@ function BlogForm(props) {
             {loginCheck()}
             {postCheck()}
             {refreshCheck()}
-            <h1 className='text-center h1'>Create A Post</h1>
+            <h1 className='text-center h1'>{blogData ? 'Update Post' : 'Create Post'}</h1>
+            
             <form  onSubmit={blogData ? updateBlogPost : postBlogPost}>
                 {blogData ? 
                     <div>

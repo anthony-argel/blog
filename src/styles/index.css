@@ -1,3 +1,8 @@
 .mynav {
   background-color: #44b787;
 }
+
+.card-text img{
+  width: 100%;
+  height: auto;
+}
