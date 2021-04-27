@@ -1,4 +1,4 @@
-import {a, Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 import React, { useEffect } from "react";
 
 const NavBar = (props) => {

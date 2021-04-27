@@ -33,13 +33,14 @@ function App() {
     <div className="App">
       <HashRouter hashType={'slash'}>
       <NavBar setLogin={setLogin} loggedIn={loggedIn}/>
+      <Switch>
           <Route path='/' exact component={Home}/>
-          <Route path='#/home/' exact><Home/></Route>
           <Route path='/blog/' exact><Blog /></Route>
           <Route path='/blog/create' exact><BlogForm /></Route>
           <Route path='/blog/:id/edit' exact><BlogForm /></Route>
           <Route path='/blog/:id' exact><BlogPost /></Route>
           <Route path='/login' exact><LoginForm setLogin={setLogin}/></Route>
+          </Switch>
       </HashRouter>
     </div>
   );
