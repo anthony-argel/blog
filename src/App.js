@@ -10,6 +10,7 @@ import {
   Switch,
   Route,
   Redirect,
+  HashRouter,
 } from "react-router-dom";
 
 function App() {
@@ -30,18 +31,16 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter hashType={'slash'}>
       <NavBar setLogin={setLogin} loggedIn={loggedIn}/>
-        <Switch>
-          <Route path='/' exact ><Redirect to='/home'/></Route>
-          <Route path='/home' exact><Home/></Route>
-          <Route path='/blog' exact><Blog /></Route>
+          <Route path='/' exact component={Home}/>
+          <Route path='#/home/' exact><Home/></Route>
+          <Route path='/blog/' exact><Blog /></Route>
           <Route path='/blog/create' exact><BlogForm /></Route>
           <Route path='/blog/:id/edit' exact><BlogForm /></Route>
           <Route path='/blog/:id' exact><BlogPost /></Route>
           <Route path='/login' exact><LoginForm setLogin={setLogin}/></Route>
-        </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
