@@ -131,7 +131,7 @@ function BlogForm(props) {
                     initialValue={blogData ? blogData[0].post : ""}
                     init={{
                     height: 500,
-                    menubar: false,
+                    menubar: 'insert',
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
                         'searchreplace visualblocks code fullscreen',
@@ -140,7 +140,7 @@ function BlogForm(props) {
                     toolbar:
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help | image | media'
+                        bullist numlist outdent indent | removeformat | help | image | media | link'
                     }}
                 />
                 <input type='submit' value='submit'></input>
