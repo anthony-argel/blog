@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useParams, Link } from "react-router-dom";
-import '../styles/reset.css';
 import '../styles/index.css';
 import { DateTime } from "luxon";
 
@@ -94,8 +93,8 @@ function BlogPost(props) {
                         {typeof post === 'undefined' ? "Loading" : post.map((value) => {
                     return <div key={id} className='post'>
                         <h1 className='h1' style={{marginBottom: "2vh"}}>{value.title}</h1>
-                        <h2>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h2>
-                    <hr/><p className='message fs-4 lh-base' dangerouslySetInnerHTML={{__html: value.post}}></p>
+                        <h3>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h3>
+                    <hr/><p className='message fs-5 lh-base' dangerouslySetInnerHTML={{__html: value.post}}></p>
                     <div style={{marginTop: "4vh", display:'flex'}}>
                         {token === '' ? null : <p onClick={deletePost} style={{cursor:"pointer", marginRight:"2vw"}}>Delete Post</p>}
                     {token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', color:'black'}}>Edit Post</Link>}</div></div>
