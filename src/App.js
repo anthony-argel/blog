@@ -17,7 +17,19 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     if(localStorage.getItem('token') !== null) {
-      setLoggedIn(true);
+      fetch('https://quiet-retreat-88465.herokuapp.com/blog/verify',{
+        method: 'get',
+        headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('token') },
+        mode: 'cors'
+    })
+    .then(res => {
+      if (res.status === 200) {
+        setLoggedIn(true);
+      }
+      else {
+        localStorage.removeItem('token');
+      }
+    })
     }
   }, []);
   
