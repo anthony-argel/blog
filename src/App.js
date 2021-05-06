@@ -14,7 +14,6 @@ import {
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
-    console.log('ran');
     if(localStorage.getItem('token') !== null) {
       fetch('https://quiet-retreat-88465.herokuapp.com/verify',{
         method: 'get',
@@ -26,6 +25,7 @@ function App() {
         setLoggedIn(true);
       }
       else {
+        setLoggedIn(false);
         localStorage.removeItem('token');
       }
     })
