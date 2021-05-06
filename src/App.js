@@ -6,18 +6,17 @@ import BlogForm from './components/BlogForm';
 import LoginForm from './components/LoginForm';
 import NavBar from './components/NavBar';
 import {
-  BrowserRouter,
   Switch,
   Route,
-  Redirect,
   HashRouter,
 } from "react-router-dom";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
+    console.log('ran');
     if(localStorage.getItem('token') !== null) {
-      fetch('https://quiet-retreat-88465.herokuapp.com/blog/verify',{
+      fetch('https://quiet-retreat-88465.herokuapp.com/verify',{
         method: 'get',
         headers: { 'Authorization' : 'Bearer ' + localStorage.getItem('token') },
         mode: 'cors'
