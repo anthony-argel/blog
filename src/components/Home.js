@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {DateTime} from "luxon";
 
 function Home(props) {
     const [posts, setPosts] = useState([]);
@@ -31,11 +32,15 @@ function Home(props) {
                 <div className="card"> 
                     <div className="card-body">
                         <h5 className="card-title fs-2">{posts[selectedPost].title}</h5>
+                            <p>Posted {DateTime.fromISO(posts[selectedPost].postdate).toFormat('LLL dd, yyyy')}</p>
+                            <hr/>
                         <p className="card-text fs-5 lh-base" dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p>
                         <Link to={'/blog/' + posts[selectedPost]._id} className='stretched-link'></Link>
                     </div>
                     </div> : 
-                        <p>"Loading"</p>}
+                    <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>}
                     </div>
                     </div>
 
@@ -54,7 +59,9 @@ function Home(props) {
                             <hr/>
                             <li><Link to={'/blog/'+posts[2]._id}>{posts[2].title}</Link></li></ul>
                         :
-                                "loading..."
+                        <div class="spinner-border text-success" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
                         }</div>
                     </div>
                 </div>

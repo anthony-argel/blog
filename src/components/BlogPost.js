@@ -89,8 +89,12 @@ function BlogPost(props) {
         <div className="container">
             {checkDeleted()}
             <div className='row d-flex justify-content-center '>
-                <div className='col-8'>
-                        {typeof post === 'undefined' ? "Loading" : post.map((value) => {
+                <div className='col-11 col-lg-8'>
+                        {typeof post === 'undefined' ? 
+                    <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+                    : post.map((value) => {
                     return <div key={id} className='post'>
                         <h1 className='h1' style={{marginBottom: "2vh"}}>{value.title}</h1>
                         <h3>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h3>
