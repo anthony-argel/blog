@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useParams, Link } from "react-router-dom";
-import '../styles/reset.css';
 import '../styles/index.css';
 import { DateTime } from "luxon";
+import {MdClose} from 'react-icons/md'
 
 function BlogPost(props) {
     const [post, setPost] = useState();
@@ -11,24 +11,39 @@ function BlogPost(props) {
     const {id} = useParams();
     const [token, setToken] = useState('');
     const [deleted, setDeleted] = useState(false);
+    const [allTags, setAllTags] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(()=> {
+        if(props.apiURL === '') return;
         const tempToken = localStorage.getItem('token');
         if (tempToken !== null) {
             setToken(tempToken);
         }
 
-        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
+        fetch(props.apiURL+'/blog/'+id, {
             method: 'GET'
         })
         .then(res => res.json())
         .then(res => {setPost(res)});
 
-        loadComments();
-    }, []);
+        fetch(props.apiURL+'/blog/'+id+'/comments', {
+            method: 'GET'
+        })
+        .then(res => res.json())
+        .then(res => {setCommentsList(res.reverse())});
+
+        fetch(props.apiURL+'/tags', {
+            method: 'GET',
+            mode: 'cors'
+        })
+        .then(res => res.json())
+        .then(res => setAllTags(res.tags))
+    }, [props.apiURL, id, refresh]);
 
     const loadComments = () => {
-        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+'/comments', {
+        if(props.apiURL === '') return;
+        fetch(props.apiURL+'/blog/'+id+'/comments', {
             method: 'GET'
         })
         .then(res => res.json())
@@ -40,7 +55,8 @@ function BlogPost(props) {
 
     function submitForm(e) {
         e.preventDefault();
-        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
+        if(props.apiURL === '') return;
+        fetch(props.apiURL+'/blog/'+id, {
             method: 'POST',
             body: JSON.stringify({comment: message}),
             headers: { 'Content-Type': 'application/json' },
@@ -55,7 +71,8 @@ function BlogPost(props) {
 
     const deletePost = (e) => {
         e.preventDefault();
-        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
+        if(props.apiURL === '') return;
+        fetch(props.apiURL+'/blog/'+id, {
             method: 'DELETE',
             headers: { 'Authorization' : 'Bearer ' + token },
             mode: 'cors'
@@ -74,9 +91,10 @@ function BlogPost(props) {
     }
 
     const deleteComment = (comment_id) => {
-        fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id+"/comment/"+comment_id, {
+        if(props.apiURL === '' || token === '') return;
+        fetch(props.apiURL+'/blog/'+id+"/comment/"+comment_id, {
             method: 'DELETE',
-            headers: { 'Authorization' : 'Bearer ' + token },
+            headers: { 'Authorization' : 'Bearer ' + token},
             mode: 'cors'
         })
         .then(res=> {
@@ -86,20 +104,89 @@ function BlogPost(props) {
         })
     }
 
+    function addTag(e) {
+        e.preventDefault();
+        if(props.apiURL === '' || token === '') return;
+        let sentId = '';
+        let tagname = document.getElementById('tag').value;
+        for(let i = 0; i < allTags.length; i++) {
+            if(tagname === allTags[i].name) {
+                sentId = allTags[i]._id;
+                break;
+            }
+        }
+        if(sentId === '') return;
+        let sendBody = {tagid: sentId, kappa:'kill me'};
+        console.log(sentId)
+        fetch(props.apiURL+'/blog/'+id+'/tag', {
+            method: 'POST',
+            headers: { 'Authorization' : 'Bearer ' + token, 'Content-Type': 'application/json' },
+            body: JSON.stringify(sendBody),
+            mode:'cors'
+        }).then(res => setRefresh(!refresh))
+    }
+
+    function deleteTag(e, tagid) {
+        e.preventDefault();
+        if(props.apiURL === '' || token === '') return;
+        fetch(props.apiURL+'/blog/'+id+'/tag', {
+            method: 'DELETE',
+            headers: { 'Authorization' : 'Bearer ' + token, 'Content-Type': 'application/json' },
+            body: JSON.stringify({tagid: tagid}),
+            mode: 'cors'
+        }).then(res => setRefresh(!refresh))
+    }
+
     return (
         <div className="container">
             {checkDeleted()}
             <div className='row d-flex justify-content-center '>
-                <div className='col-8'>
-                        {typeof post === 'undefined' ? "Loading" : post.map((value) => {
+                <div className='col-11 col-lg-8'>
+                        {typeof post === 'undefined' ? 
+                    <div className="spinner-border text-success" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                    </div>
+                    : post.map((value) => {
                     return <div key={id} className='post'>
                         <h1 className='h1' style={{marginBottom: "2vh"}}>{value.title}</h1>
-                        <h2>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h2>
-                    <hr/><p className='message fs-4 lh-base' dangerouslySetInnerHTML={{__html: value.post}}></p>
-                    <div style={{marginTop: "4vh", display:'flex'}}>
-                        {token === '' ? null : <p onClick={deletePost} style={{cursor:"pointer", marginRight:"2vw"}}>Delete Post</p>}
-                    {token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', color:'black'}}>Edit Post</Link>}</div></div>
+                        <h3>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</h3>
+                    <hr/><p className='message fs-5 lh-base' dangerouslySetInnerHTML={{__html: value.post}}></p>
+
+                                { value.tags.length > 0 ? 
+                            <div>
+                                <hr/>
+                                    <p>Tags: 
+                                {value.tags.map((tagvalues, tagInd) => {
+                                    return <span key={tagvalues._id}>{tagvalues.tagname}
+                                    {token !== '' ? 
+                                    <MdClose onClick={e => deleteTag(e, tagvalues._id)} cursor='pointer' color='red'/>
+                                    :
+                                    null}
+                                    
+                                    {tagInd + 1 !== value.tags.length ? `, ` : null}</span>
+                                })}
+                                </p>
+                            </div>
+                            :
+                            null
+                            }
+
+                        <div style={{marginTop: "4vh", display:'flex'}}>
+                            {token === '' ? null : <p onClick={deletePost} style={{cursor:"pointer", marginRight:"2vw"}}>Delete Post</p>}
+                            {token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', marginRight: '2vw', color:'black'}}>Edit Post</Link>}
+                            {token === '' ? null : <p data-bs-toggle="modal" data-bs-target="#tagModal" style={{cursor:'pointer'}}>
+                            Add Tag
+                            </p>}
+                            
+                        </div>
+                    </div>
                 })}
+
+
+
+
+
+
                 <form onSubmit={submitForm}>
                     <div className="mb-3">
                         <label htmlFor="comment-box" className="form-label"></label>
@@ -119,6 +206,50 @@ function BlogPost(props) {
                     </div>
                 </div>
             </div>
+
+            
+
+
+            <div className="modal fade" id="tagModal" tabIndex="-1" aria-labelledby="tagModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="tagModalLabel">Tag Form</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div className="modal-body" >
+                    <form onSubmit={e => addTag(e)}>
+                        <input list='tags'  className='mx-3' name='tag' id='tag'/>
+                        <datalist id='tags'>
+                            {allTags.map((value, index) => {
+                                return <option key={value._id} data-tag-id={value._id} value={value.name}></option>
+                            })}
+                        </datalist>
+                        <button className="btn btn-primary" type='submit'>Add Tag</button>
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     )
 }

@@ -16,8 +16,9 @@ function BlogForm(props) {
     const [blogData, setBlogData] = useState();
 
     useEffect(()=> {
+        if(props.apiURL === '') return;
         if(id) {
-            fetch('https://quiet-retreat-88465.herokuapp.com/blog/' + id, {
+            fetch(props.apiURL+'/blog/' + id, {
                 method: 'GET',
                 mode: 'cors'
             })
@@ -36,10 +37,11 @@ function BlogForm(props) {
         else {
             setToken(tempToken);
         }
-    }, []);
+    }, [id, props.apiURL]);
 
     useEffect(() => {
         if(blogData) {
+            setPost(blogData[0].post);
         }
     }, [blogData])
 
@@ -114,7 +116,8 @@ function BlogForm(props) {
             {loginCheck()}
             {postCheck()}
             {refreshCheck()}
-            <h1 className='text-center h1'>Create A Post</h1>
+            <h1 className='text-center h1'>{blogData ? 'Update Post' : 'Create Post'}</h1>
+            
             <form  onSubmit={blogData ? updateBlogPost : postBlogPost}>
                 {blogData ? 
                     <div>
@@ -131,16 +134,16 @@ function BlogForm(props) {
                     initialValue={blogData ? blogData[0].post : ""}
                     init={{
                     height: 500,
-                    menubar: false,
+                    menubar: 'insert',
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
                         'searchreplace visualblocks code fullscreen',
-                        'insertdatetime media table paste code help wordcount'
+                        'insertdatetime media table paste code help wordcount media'
                     ],
                     toolbar:
                         'undo redo | formatselect | bold italic backcolor | \
                         alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help | image'
+                        bullist numlist outdent indent | removeformat | help | image | media | link'
                     }}
                 />
                 <input type='submit' value='submit'></input>
