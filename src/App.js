@@ -17,8 +17,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [apiURL, setApiURL] = useState('');
   useEffect(() => {
-    //let url = 'https://quiet-retreat-88465.herokuapp.com'; 
-    let url ='http://localhost:6969';
+    let url = 'https://quiet-retreat-88465.herokuapp.com'; 
     setApiURL(url);
   }, []);
 
