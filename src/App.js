@@ -52,6 +52,7 @@ function App() {
 
   return (
     <div className="App">
+      <div style={{minHeight:'97vh'}}>
       <HashRouter hashType={'slash'}>
       <NavBar setLogin={setLogin} apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/>
       <Switch>
@@ -65,6 +66,8 @@ function App() {
           <Route path='/login' exact><LoginForm apiURL={apiURL === ''? '' : apiURL} setLogin={setLogin}/></Route>
           </Switch>
       </HashRouter>
+      </div>
+        <div style={{backgroundColor:'rgb(68, 183, 135)', minHeight:'3vh'}} className='text-center'><a style={{textDecoration:'none', color:'white'}} target='_blank' rel="noreferrer" href='https://anthonyargel.com/'>Developer</a></div>
     </div>
   );
 }

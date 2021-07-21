@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import profile from '../assets/profile.jpg';
 import { Link } from "react-router-dom";
-import {DateTime} from "luxon";
 
 function Home(props) {
     const [posts, setPosts] = useState([]);
@@ -12,7 +12,6 @@ function Home(props) {
             method: 'GET'
         })
         .then(res => {
-            console.log(res);
             if(res.status === 200) return res.json();
         })
         .then(res => {setPosts(res.reverse())});
@@ -27,69 +26,41 @@ function Home(props) {
 
     return (
             <div className='container'>
-                <div className='row d-flex justify-content-evenly mb-3 '>
-                    <div className='col-12 col-lg-6'>
-
-                    <h2 className='h2 text-center'>Random Post</h2>
-
-                <div >{selectedPost !== -1 ?
-                <div className="card shadow-lg p-2"> 
-                    <div className="card-body">
-                        <h5 className="card-title fs-2">{posts[selectedPost].title}</h5>
-                            <p>Posted {DateTime.fromISO(posts[selectedPost].postdate).toFormat('LLL dd, yyyy')}</p>
-                            <hr/>
-                        <p className="card-text fs-5 lh-base" dangerouslySetInnerHTML={{__html: posts[selectedPost].post}}></p>
-                        {posts[selectedPost].tags.length > 0 ? 
-                        <div>
-                            <hr/>
-                            <p>Tags: 
-                            {posts[selectedPost].tags.map((value, index) => {
-                                return <span key={value._id}>{value.tagname}{index + 1 !== posts[selectedPost].tags.length ? ',' : null}</span>
-                            })}
-                            </p>
+               <div className='row'>
+                    <div className='col-12 col-lg-4 text-center'>
+                        <img src={profile} className='rounded-circle' style={{width:'auto', maxWidth:"100%", maxHeight:'400px'}} alt='my avatar'></img>
+                        <h1>Anthony Argel</h1>
+                        <h5>Interests: Programming, Japanese, Education, Mathematics</h5>
+                    </div>
+                    <div className='col-12 col-lg-8 d-flex flex-column justify-content-center align-items-center'>
+                        <div className='mt-5'>
+                        <div className='lh-lg'>
+                        <h3>Random Post</h3>
+                            {selectedPost !== -1 ?
+                                <div>
+                                    <Link to={'/blog/'+posts[selectedPost]._id} className='fs-4'>{posts[selectedPost].title}</Link>  
+                                </div>
+                                :
+                                null
+                            }
                         </div>
-                            : null}
-                        <Link to={'/blog/' + posts[selectedPost]._id} className='stretched-link'></Link>
-                    </div>
-                    </div> : 
-                    <div className="spinner-border text-success" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                    </div>}
-                    </div>
-                    </div>
-
-
-
-
-                    <div className='col-12 col-lg-3 '>
-                    <div className=''><p className='fs-2'>Recent Posts</p>
-                        {selectedPost !== -1 ? 
-                        <ul className='recent-posts lh-lg shadow-lg p-5' style={{listStyleType:'none'}}>
-                            <li><Link to={'/blog/'+posts[0]._id}>{posts[0].title}</Link></li>
-                            <hr/>
-                            <li><Link to={'/blog/'+posts[1]._id}>{posts[1].title}</Link></li>
-                            <hr/>
-                            <li><Link to={'/blog/'+posts[2]._id}>{posts[2].title}</Link></li></ul>
-                        :
-                        <div className="spinner-border text-success" role="status">
-                          <span className="visually-hidden">Loading...</span>
+                        <h3 className='mt-5'>Recent Posts</h3>
+                        <div className=''>
+                            {selectedPost !== -1 ? 
+                            <ul className='lh-lg p-0 fs-4' style={{listStyleType:'none'}}>
+                                <li><Link to={'/blog/'+posts[0]._id}>{posts[0].title}</Link></li>
+                                <li><Link to={'/blog/'+posts[1]._id}>{posts[1].title}</Link></li>
+                                <li><Link to={'/blog/'+posts[2]._id}>{posts[2].title}</Link></li></ul>
+                            :
+                            <div className="spinner-border text-success" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                            </div>
+                            }
                         </div>
-                        }</div>
+                        </div>
                     </div>
-                </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
+               </div>
             </div>
-
-
-            
     )
 }
 
