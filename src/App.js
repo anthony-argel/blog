@@ -55,7 +55,7 @@ function App() {
       <HashRouter hashType={'slash'}>
       <NavBar setLogin={setLogin} apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/>
       <Switch>
-          <Route path='/' render ={() => <Home apiURL={apiURL === ''? '' : apiURL} />} exact></Route>
+          <Route path='/' render ={() => <Blog apiURL={apiURL === ''? '' : apiURL} />} exact></Route>
           <Route path='/search/:searchstring' exact><Search apiURL={apiURL === ''? '' : apiURL}/></Route>
           <Route path='/blog/' exact><Blog apiURL={apiURL === ''? '' : apiURL} /></Route>
           <Route path='/blog/create' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} /></Route>
