@@ -34,7 +34,7 @@ const NavBar = (props) => {
 		<div className='mb-5' style={{backgroundColor:'white'}}>
 			<div className='p-4'>
 				{props.loggedIn ? 
-					<h1 className='text-center'><Link to='/' style={{'color':'pink', 'textDecoration':'none'}}>Anthony Argel</Link><span><Link style={{'color':'green', 'textDecoration':'none'}} to='/blog/create'>+</Link></span></h1>
+					<h1 className='text-center'><Link to='/' style={{'color':'darkGreen', 'textDecoration':'none'}}>Tony</Link></h1>
 					:
 					<h1 className='text-center'><Link to='/' style={{textDecoration:'none', color:'black'}}>Anthony Argel</Link></h1>
 				}
@@ -51,7 +51,7 @@ const NavBar = (props) => {
 								<Link className="nav-link active" aria-current="page" to='/'>Home</Link>
 							</li>
 							{props.loggedIn ? <li className='nav-item'><p className='nav-link' data-bs-toggle="modal" data-bs-target="#createTagModal" style={{cursor:'pointer', marginBottom:'0'}}>Add Tag</p></li> : null}
-							{props.loggedIn ? <li className='nav-item'><Link to='/blog/create' className='nav-link'>Create</Link></li> : null}
+							{props.loggedIn ? <li className='nav-item'><Link to='/post/create' className='nav-link'>Create</Link></li> : null}
 						</ul>
 						<div className="modal fade" id="createTagModal" tabIndex="-1" aria-labelledby="createTagModalLabel" aria-hidden="true">
 							<div className="modal-dialog">

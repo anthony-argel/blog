@@ -17,6 +17,7 @@ function App() {
 	const [apiURL, setApiURL] = useState('');
 	useEffect(() => {
 		let url = 'https://quiet-retreat-88465.herokuapp.com'; 
+		//let url = 'http://localhost:6969';
 		setApiURL(url);
 	}, []);
 
@@ -55,12 +56,11 @@ function App() {
 				<HashRouter hashType={'slash'}>
 					<NavBar setLogin={setLogin} apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/>
 					<Switch>
-						<Route path='/' render ={() => <Blog apiURL={apiURL === ''? '' : apiURL} />} exact></Route>
-						<Route path='/search/:searchstring' exact><Search apiURL={apiURL === ''? '' : apiURL}/></Route>
-						<Route path='/blog/' exact><Blog apiURL={apiURL === ''? '' : apiURL} /></Route>
-						<Route path='/blog/create' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} /></Route>
-						<Route path='/blog/:id/edit' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} /></Route>
-						<Route path='/blog/:id' exact><BlogPost apiURL={apiURL === ''? '' : apiURL} /></Route>
+						<Route path='/' render ={() => <Blog apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/>} exact></Route>
+						<Route path='/search/:searchstring' exact><Search apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
+						<Route path='/post/create' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} /></Route>
+						<Route path='/post/:id/edit' exact><BlogForm apiURL={apiURL === ''? '' : apiURL}/></Route>
+						<Route path='/post/:id' exact><BlogPost apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
 						<Route path='/tag/:tagid' exact><PostByTag apiURL={apiURL === ''? '' : apiURL}/></Route>
 						<Route path='/login' exact><LoginForm apiURL={apiURL === ''? '' : apiURL} setLogin={setLogin}/></Route>
 					</Switch>

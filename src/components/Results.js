@@ -26,7 +26,7 @@ const Results = (props) => {
 									: null}
 								<hr/>
 								<p className='card-text lh-base fs-5' dangerouslySetInnerHTML={value.post.length > 200 ? {__html: value.post.substr(0,200) + '...'} : {__html: value.post}}></p>
-								<Link to={'/blog/'+value._id} key={value._id} className='stretched-link'></Link> 
+								<Link to={'/post/'+value._id} key={value._id} className='stretched-link'></Link> 
 							</div>
 						</div>;
                 

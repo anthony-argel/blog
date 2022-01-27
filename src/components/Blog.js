@@ -9,8 +9,19 @@ function Blog(props) {
 
 	useEffect(()=> {
 		if(props.apiURL === '') return;
-		fetch(props.apiURL+'/blog', {
+		
+		let getURL = props.apiURL;
+		const tempToken = localStorage.getItem('token');
+		if(props.loggedIn) {
+			getURL += '/blog/admin/posts';
+		}
+		else {
+			getURL += '/blog';
+		}
+		fetch(getURL, {
 			method: 'GET',
+			headers: tempToken !== null ? { 'Content-Type': 'application/json',
+				'Authorization' : 'Bearer ' + tempToken } : {},
 			mode:'cors'
 		})
 			.then(res => res.json())
@@ -45,7 +56,7 @@ function Blog(props) {
 				<div className='col-12 col-lg-8'>
 					{posts.length > 0 ? posts.map((value) => {
                 
-						return <div key={value._id} className="card my-3 p-3 shadow-lg">
+						return <div key={value._id} className="card my-3 p-3 shadow-lg" style={{background: value.visible === true ? '#FFF' : 'darkGreen'}}>
 							<div className='card-body'>
 								<h5 className='card-title fs-1'>{value.title}</h5>
 								<p>Posted {DateTime.fromISO(value.postdate).toFormat('LLL dd, yyyy')}</p>
@@ -61,7 +72,7 @@ function Blog(props) {
 									: null}
 								<hr/>
 								<p className='card-text lh-base fs-5' dangerouslySetInnerHTML={value.post.length > 200 ? {__html: value.post.substr(0,200) + '...'} : {__html: value.post}}></p>
-								<Link to={'/blog/'+value._id} key={value._id} className='stretched-link'></Link> 
+								<Link to={'/post/'+value._id} key={value._id} className='stretched-link'></Link> 
 							</div>
 						</div>;
                 

@@ -52,7 +52,8 @@ function BlogForm(props) {
 
 	function postBlogPost(e) {
 		e.preventDefault();
-		fetch('https://quiet-retreat-88465.herokuapp.com/blog', {
+		if(props.apiURL === '') return;
+		fetch(props.apiURL+'/blog', {
 			method: 'POST',
 			body: JSON.stringify({post:post, title:title}),
 			headers: { 'Content-Type': 'application/json',
@@ -76,19 +77,20 @@ function BlogForm(props) {
 
 	const postCheck = () => {
 		if(posted) {
-			return <Redirect push to='/blog'/>;
+			return <Redirect push to='/'/>;
 		}
 	};
 
 	const refreshCheck = () => {
 		if(refresh) {
-			return <Redirect push to={`/blog/${id}`}/>;
+			return <Redirect push to={`/post/${id}`}/>;
 		}
 	};
 
 	const updateBlogPost = (e) => {
 		e.preventDefault();
-		fetch('https://quiet-retreat-88465.herokuapp.com/blog/'+id, {
+		if(props.apiURL === '') return;
+		fetch(props.apiURL+'/blog/'+id, {
 			method: 'PUT',
 			body: JSON.stringify({post:post, title:title}),
 			headers: { 'Content-Type': 'application/json',

@@ -13,6 +13,7 @@ function BlogPost(props) {
 	const [deleted, setDeleted] = useState(false);
 	const [allTags, setAllTags] = useState([]);
 	const [refresh, setRefresh] = useState(false);
+	const [visible, setVisible] = useState(false);
 
 	useEffect(()=> {
 		if(props.apiURL === '') return;
@@ -20,12 +21,27 @@ function BlogPost(props) {
 		if (tempToken !== null) {
 			setToken(tempToken);
 		}
+		let getPostURL = props.apiURL;
+		if(props.loggedIn) {
+			getPostURL += '/blog/admin/post/'+id;
+		} 
+		else {
+			getPostURL += '/blog/'+id;
+		}
 
-		fetch(props.apiURL+'/blog/'+id, {
-			method: 'GET'
+		fetch(getPostURL, {
+			method: 'GET',
+			headers: tempToken !== null ? { 'Content-Type': 'application/json',
+				'Authorization' : 'Bearer ' + tempToken } : {},
+			mode:'cors'
 		})
 			.then(res => res.json())
-			.then(res => {setPost(res);});
+			.then(res => {
+				setPost(res);
+				if(res.length > 0) {
+					setVisible(res[0].visible);
+				}
+			});
 
 		fetch(props.apiURL+'/blog/'+id+'/comments', {
 			method: 'GET'
@@ -86,7 +102,7 @@ function BlogPost(props) {
 
 	const checkDeleted = () => {
 		if(deleted) {
-			return <Redirect push to='/blog'/>;
+			return <Redirect push to='/'/>;
 		}
 	};
 
@@ -137,6 +153,21 @@ function BlogPost(props) {
 		}).then(setRefresh(!refresh));
 	}
 
+	const toggleVisibility = () => {
+		console.log('called');
+		if(props.apiURL === '' || token === '' || typeof post === 'undefined') return;
+		fetch(props.apiURL+'/blog/visibility/'+id, {
+			method: 'PUT',
+			headers: { 'Authorization' : 'Bearer ' + token, 'Content-Type': 'application/json' },
+			body: JSON.stringify({visible: !post[0].visible}),
+			mode: 'cors'
+		}).then(res => {
+			if(res.status === 200) {
+				setVisible(!visible);
+			}
+		});
+	};
+
 	return (
 		<div className="container">
 			{checkDeleted()}
@@ -173,10 +204,10 @@ function BlogPost(props) {
 
 								<div style={{marginTop: '4vh', display:'flex'}}>
 									{token === '' ? null : <p onClick={deletePost} style={{cursor:'pointer', marginRight:'2vw'}}>Delete Post</p>}
-									{token === '' ? null : <Link to={`/blog/${id}/edit`} style={{textDecoration:'none', marginRight: '2vw', color:'black'}}>Edit Post</Link>}
-									{token === '' ? null : <p data-bs-toggle="modal" data-bs-target="#tagModal" style={{cursor:'pointer'}}>
-                            Add Tag
-									</p>}
+									{token === '' ? null : <Link to={`/post/${id}/edit`} style={{textDecoration:'none', marginRight: '2vw', color:'black'}}>Edit Post</Link>}
+									{token === '' ? null : <p data-bs-toggle="modal" data-bs-target="#tagModal" style={{cursor:'pointer'}}>Add Tag</p>}
+									{token === '' ? null : typeof post !== 'undefined' & visible === true ? <p style={{'marginLeft': '2vw', 'cursor':'pointer'}} onClick={() => toggleVisibility()}>Hide Post</p> 
+										: <p style={{'marginLeft': '2vw', 'cursor':'pointer'}} onClick={() => toggleVisibility()}>Show Post</p>}
                             
 								</div>
 							</div>;
@@ -234,22 +265,6 @@ function BlogPost(props) {
 					</div>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		</div>
 	);
 }
