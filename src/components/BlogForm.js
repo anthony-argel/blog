@@ -18,9 +18,19 @@ function BlogForm(props) {
 	useEffect(()=> {
 		if(props.apiURL === '') return;
 		if(id) {
-			fetch(props.apiURL+'/blog/' + id, {
+			let getURL = props.apiURL;
+			const tempToken = localStorage.getItem('token');
+			if(props.loggedIn) {
+				getURL += '/blog/admin/post/'+id;
+			}
+			else {
+				getURL += '/blog/'+id;
+			}
+			fetch(getURL, {
 				method: 'GET',
-				mode: 'cors'
+				headers: tempToken !== null ? { 'Content-Type': 'application/json',
+					'Authorization' : 'Bearer ' + tempToken } : {},
+				mode:'cors'
 			})
 				.then(res => {
 					if(res.status === 200) {
@@ -45,7 +55,7 @@ function BlogForm(props) {
 	}, [id, props.apiURL]);
 
 	useEffect(() => {
-		if(blogData) {
+		if(blogData && blogData.length > 0) {
 			setPost(blogData[0].post);
 		}
 	}, [blogData]);

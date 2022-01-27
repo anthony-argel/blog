@@ -58,8 +58,8 @@ function App() {
 					<Switch>
 						<Route path='/' render ={() => <Blog apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/>} exact></Route>
 						<Route path='/search/:searchstring' exact><Search apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
-						<Route path='/post/create' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} /></Route>
-						<Route path='/post/:id/edit' exact><BlogForm apiURL={apiURL === ''? '' : apiURL}/></Route>
+						<Route path='/post/create' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
+						<Route path='/post/:id/edit' exact><BlogForm apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
 						<Route path='/post/:id' exact><BlogPost apiURL={apiURL === ''? '' : apiURL} loggedIn={loggedIn}/></Route>
 						<Route path='/tag/:tagid' exact><PostByTag apiURL={apiURL === ''? '' : apiURL}/></Route>
 						<Route path='/login' exact><LoginForm apiURL={apiURL === ''? '' : apiURL} setLogin={setLogin}/></Route>
