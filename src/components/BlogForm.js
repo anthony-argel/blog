@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, Prompt } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 import '@tinymce/tinymce-react';
 import '../styles/index.css';
@@ -8,6 +8,7 @@ function BlogForm(props) {
 	const [token, setToken] = useState('');
 	const [post, setPost] = useState('');
 	const [title, setTitle] = useState('');
+	const [visible, setVisible] = useState(false);
 	const [loggedIn, setLoggedIn] = useState(true);
 	const [posted, setPosted] = useState(false);
 	const {id} = useParams();
@@ -42,6 +43,7 @@ function BlogForm(props) {
 					setBlogData(res);
 					setTitle(newData.title);
 					setPost(newData.post);
+					setVisible(newData.visible);
 				});
 		}
 
@@ -102,7 +104,7 @@ function BlogForm(props) {
 		if(props.apiURL === '') return;
 		fetch(props.apiURL+'/blog/'+id, {
 			method: 'PUT',
-			body: JSON.stringify({post:post, title:title}),
+			body: JSON.stringify({post:post, title:title, visible:visible}),
 			headers: { 'Content-Type': 'application/json',
 				'Authorization' : 'Bearer ' + token },
 			mode: 'cors'
@@ -122,7 +124,8 @@ function BlogForm(props) {
 	};
 
 	return (
-		<div className="container">
+		<div className="container mb-3">
+			<Prompt message='Are you done with this form?'></Prompt>
 			<div className='row'>
 				<div className='col'>
 					{loginCheck()}
