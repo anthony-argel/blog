@@ -174,8 +174,10 @@ function BlogPost(props) {
 			<div className='row d-flex justify-content-center '>
 				<div className='col-11 col-lg-8'>
 					{typeof post === 'undefined' ? 
-						<div className="spinner-border text-success" role="status">
-							<span className="visually-hidden">Loading...</span>
+						<div className='text-center'>
+							<div className="spinner-border text-success" role="status">
+								<span className="visually-hidden">Loading...</span>
+							</div>
 						</div>
 						: post.map((value) => {
 							return <div key={id} className='post'>

@@ -78,9 +78,11 @@ function Blog(props) {
                 
 					})
 						:
-                
-						<div className="spinner-border text-success" role="status">
-							<span className="visually-hidden">Loading...</span>
+						<div className='text-center '>
+							<div className="spinner-border text-success text-center" role="status">
+								<span className="visually-hidden">Loading...</span>
+							</div>
+
 						</div>
 					}
 				</div>
