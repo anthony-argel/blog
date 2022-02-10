@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/styles/index.css"],"names":[],"mappings":"AAAA,OACE,wBACF,CAEA,eACE,UAGF,CAEA,mBAJE,cAAe,CACf,WAMF","file":"main.4bc5e6e1.chunk.css","sourcesContent":[".mynav {\n  background-color: #44b787;\n}\n\n.card-text img{\n  width: 100%;\n  max-width: 100%;\n  height: auto;\n}\n\nimg {\n  max-width: 100%;\n  height: auto;\n}"]}
